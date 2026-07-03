@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
-import { Search, User, ShoppingCart } from "lucide-react";
+import { Search, User, ShoppingCart, LogOut } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
+import { useSession, signOut } from "next-auth/react";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -15,6 +16,7 @@ const navLinks = [
 
 export default function Header() {
   const totalItems = useCartStore((state) => state.totalItems());
+  const { data: session } = useSession();
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg)]/75 px-12 py-4 backdrop-blur-xl">
@@ -44,7 +46,22 @@ export default function Header() {
 
       <div className="flex items-center gap-5">
         <Search className="h-[18px] w-[18px] cursor-pointer text-[var(--text)] opacity-85" />
-        <User className="h-[18px] w-[18px] cursor-pointer text-[var(--text)] opacity-85" />
+
+        {session ? (
+          <div className="flex items-center gap-3">
+            <Link href="/account">
+              <User className="h-[18px] w-[18px] cursor-pointer text-[var(--gold-bright)]" />
+            </Link>
+            <button onClick={() => signOut()}>
+              <LogOut className="h-[18px] w-[18px] cursor-pointer text-[var(--muted)] hover:text-[var(--ember)]" />
+            </button>
+          </div>
+        ) : (
+          <Link href="/login">
+            <User className="h-[18px] w-[18px] cursor-pointer text-[var(--text)] opacity-85" />
+          </Link>
+        )}
+
         <Link href="/cart" className="relative">
           <ShoppingCart className="h-[18px] w-[18px] cursor-pointer text-[var(--text)] opacity-85" />
           {totalItems > 0 && (

@@ -39,7 +39,7 @@ interface ProductInput {
 }
 
 async function main() {
-  const brands: Brand[] = await Promise.all(
+  const brands = await Promise.all(
     [
       { name: "Optimum Nutrition", slug: "optimum-nutrition" },
       { name: "Muscletech", slug: "muscletech" },
@@ -52,7 +52,7 @@ async function main() {
     )
   );
 
-  const categories: Category[] = await Promise.all(
+  const categories = await Promise.all(
     [
       { name: "Whey Protein", slug: "whey-protein" },
       { name: "Mass Gainers", slug: "mass-gainers" },
@@ -65,8 +65,8 @@ async function main() {
     )
   );
 
-  const getBrand = (name: string): number => brands.find((b) => b.name === name)!.id;
-  const getCategory = (name: string): number => categories.find((c) => c.name === name)!.id;
+ const getBrand = (name: string) => brands.find((b) => b.name === name)!.id;
+ const getCategory = (name: string) => categories.find((c) => c.name === name)!.id;
 
   const products: ProductInput[] = [
     {
