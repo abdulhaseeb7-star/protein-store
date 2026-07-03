@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter, Anton } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-display" });
@@ -12,10 +12,10 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${anton.variable}`}>
-      <body>
-        <SessionProvider>{children}</SessionProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={`${inter.variable} ${anton.variable}`}>
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
